@@ -122,6 +122,7 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
 
     private void setGattServer() {
         mBluetoothDevices = new HashSet<>();
+
         mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         if (mBluetoothManager != null) {
             mGattServer = mBluetoothManager.openGattServer(this, mGattServerCallback);
@@ -207,17 +208,53 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
 
 
     private final BluetoothGattServerCallback mGattServerCallback = new BluetoothGattServerCallback() {
+
+
+        @Override
+        public void onServiceAdded(int status, BluetoothGattService service) {
+            super.onServiceAdded(status, service);
+Log.v("mGattServerCallback", "onServiceAdded. service:" + service.getUuid() + ", status:" + status);
+        }
+
+        @Override
+        public void onExecuteWrite(BluetoothDevice device, int requestId, boolean execute) {
+            super.onExecuteWrite(device, requestId, execute);
+Log.v("mGattServerCallback", "onExecuteWrite. requestId:" + requestId + ", execute:" + execute);
+        }
+
+        @Override
+        public void onMtuChanged(BluetoothDevice device, int mtu) {
+            super.onMtuChanged(device, mtu);
+Log.v("mGattServerCallback", "onMtuChanged. mtu:" + mtu);
+        }
+
+        @Override
+        public void onPhyUpdate(BluetoothDevice device, int txPhy, int rxPhy, int status) {
+            super.onPhyUpdate(device, txPhy, rxPhy, status);
+Log.v("mGattServerCallback", "onPhyUpdate. txPhy:" + txPhy + ", rxPhy: " + rxPhy + ", status:" + status);
+        }
+
+        @Override
+        public void onPhyRead(BluetoothDevice device, int txPhy, int rxPhy, int status) {
+            super.onPhyRead(device, txPhy, rxPhy, status);
+Log.v("mGattServerCallback", "onPhyRead. txPhy:" + txPhy + ", rxPhy: " + rxPhy + ", status:" + status);
+        }
+
+
         @Override
         public void onConnectionStateChange(BluetoothDevice device, final int status, int newState) {
+android.util.Log.d("mGattServerCallback", "onConnectionStateChange");
             super.onConnectionStateChange(device, status, newState);
             String msg;
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 if (newState == BluetoothGatt.STATE_CONNECTED) {
+                // Remote device connected
                     mBluetoothDevices.add(device);
                     msg = "Connected to device: " + device.getAddress();
                     Log.v(MainActivity.TAG, msg);
                     showMsgText(msg);
                 } else if (newState == BluetoothGatt.STATE_DISCONNECTED) {
+                // Remote device disconnected
                     mBluetoothDevices.remove(device);
                     msg = "Disconnected from device";
                     Log.v(MainActivity.TAG, msg);
@@ -235,7 +272,7 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
         @Override
         public void onNotificationSent(BluetoothDevice device, int status) {
             super.onNotificationSent(device, status);
-            Log.v(MainActivity.TAG, "Notification sent. Status: " + status);
+Log.v("mGattServerCallback", "onNotificationSent. Status: " + status);
         }
 
 
@@ -246,8 +283,8 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
             if (mGattServer == null) {
                 return;
             }
-            Log.d(MainActivity.TAG, "Device tried to read characteristic: " + characteristic.getUuid());
-            Log.d(MainActivity.TAG, "Value: " + Arrays.toString(characteristic.getValue()));
+Log.d("mGattServerCallback", "Device tried to read characteristic: " + characteristic.getUuid());
+Log.d("mGattServerCallback", "Value: " + Arrays.toString(characteristic.getValue()));
 
             mGattServer.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, characteristic.getValue());
         }
@@ -256,7 +293,7 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
         @Override
         public void onCharacteristicWriteRequest(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic, boolean preparedWrite, boolean responseNeeded, int offset, final byte[] value) {
             super.onCharacteristicWriteRequest(device, requestId, characteristic, preparedWrite, responseNeeded, offset, value);
-            Log.v(MainActivity.TAG, "Characteristic Write request: " + Arrays.toString(value) + "responseNeeded:" + responseNeeded);
+Log.v("mGattServerCallback", "Characteristic Write request: " + Arrays.toString(value) + "responseNeeded:" + responseNeeded);
             mSampleCharacteristic.setValue(value);
 
             runOnUiThread(new Runnable() {
@@ -280,8 +317,8 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
                 return;
             }
 
-            Log.d(MainActivity.TAG, "Device tried to read descriptor: " + descriptor.getUuid());
-            Log.d(MainActivity.TAG, "Value: " + Arrays.toString(descriptor.getValue()));
+Log.d("mGattServerCallback", "Device tried to read descriptor: " + descriptor.getUuid());
+Log.d("mGattServerCallback", "Value: " + Arrays.toString(descriptor.getValue()));
 
             mGattServer.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, descriptor.getValue());
         }
@@ -294,7 +331,7 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
 
             super.onDescriptorWriteRequest(device, requestId, descriptor, preparedWrite, responseNeeded, offset, value);
 
-            Log.v(MainActivity.TAG, "Descriptor Write Request " + descriptor.getUuid() + " " + Arrays.toString(value));
+Log.v("mGattServerCallback", "Descriptor Write Request " + descriptor.getUuid() + " " + Arrays.toString(value));
 
 //            int status = BluetoothGatt.GATT_SUCCESS;
 //            if (descriptor.getUuid() == CLIENT_CHARACTERISTIC_CONFIGURATION_UUID) {
@@ -336,6 +373,8 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
 //            }
 
         }
+
+
     };
 
 

@@ -152,6 +152,7 @@ android.util.Log.i("AdvertiseService", "buildAdvertiseData");
 
         AdvertiseData.Builder dataBuilder = new AdvertiseData.Builder();
         //dataBuilder.addServiceUuid(Constants.SERVICE_UUID);
+
         dataBuilder.addServiceUuid(ParcelUuid.fromString(Constants.HEART_RATE_SERVICE_UUID.toString()));
         dataBuilder.setIncludeDeviceName(true);
 
@@ -183,14 +184,14 @@ android.util.Log.i("AdvertiseService", "buildAdvertiseSettings");
         @Override
         public void onStartFailure(int errorCode) {
             super.onStartFailure(errorCode);
-Log.d("AdvertiseService", "Advertising failed");
+Log.d("AdvertiseCallback", "Advertising failed");
             stopSelf();
         }
 
         @Override
         public void onStartSuccess(AdvertiseSettings settingsInEffect) {
             super.onStartSuccess(settingsInEffect);
-Log.d("AdvertiseService", "Advertising successfully started");
+Log.d("AdvertiseCallback", "Advertising successfully started");
         }
     }
 

@@ -120,6 +120,7 @@ public class CentralRoleActivity extends BluetoothActivity implements View.OnCli
                     // Kick off a new scan.
                     mScanCallback = new SampleScanCallback();
                     bluetoothLeScanner.startScan(buildScanFilters(), buildScanSettings(), mScanCallback);
+
                     String toastText =
                                     getString(R.string.scan_start_toast) + " "
                                     + TimeUnit.SECONDS.convert(SCAN_PERIOD, TimeUnit.MILLISECONDS) + " "

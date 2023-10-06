@@ -61,6 +61,7 @@ Log.i("BluetoothGattCallback", "onConnectionStateChange");
                 mConnectionState = STATE_CONNECTED;
                 broadcastUpdate(intentAction);
             Log.i(MainActivity.TAG, "Connected to GATT server.");
+
                 // Attempts to discover services after successful connection.
             Log.i(MainActivity.TAG, "Attempting to start service discovery:" + mBluetoothGatt.discoverServices());
 
@@ -96,6 +97,58 @@ Log.i("BluetoothGattCallback", "onCharacteristicRead");
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
 Log.i("BluetoothGattCallback", "onCharacteristicChanged");
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+        }
+
+        @Override
+        public void onPhyUpdate(BluetoothGatt gatt, int txPhy, int rxPhy, int status) {
+            super.onPhyUpdate(gatt, txPhy, rxPhy, status);
+Log.i("BluetoothGattCallback", "onPhyUpdate");
+        }
+
+        @Override
+        public void onPhyRead(BluetoothGatt gatt, int txPhy, int rxPhy, int status) {
+            super.onPhyRead(gatt, txPhy, rxPhy, status);
+Log.i("BluetoothGattCallback", "onPhyRead");
+        }
+
+        @Override
+        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            super.onCharacteristicWrite(gatt, characteristic, status);
+Log.i("BluetoothGattCallback", "onCharacteristicWrite. (A response from \"onCharacteristicWriteRequest\")");
+
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+            }
+        }
+
+        @Override
+        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            super.onDescriptorRead(gatt, descriptor, status);
+Log.i("BluetoothGattCallback", "onDescriptorRead");
+        }
+
+        @Override
+        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            super.onDescriptorWrite(gatt, descriptor, status);
+Log.i("BluetoothGattCallback", "onDescriptorWrite");
+        }
+
+        @Override
+        public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
+            super.onReliableWriteCompleted(gatt, status);
+Log.i("BluetoothGattCallback", "onReliableWriteCompleted");
+        }
+
+        @Override
+        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+            super.onReadRemoteRssi(gatt, rssi, status);
+Log.i("BluetoothGattCallback", "onReadRemoteRssi");
+        }
+
+        @Override
+        public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+            super.onMtuChanged(gatt, mtu, status);
+Log.i("BluetoothGattCallback", "onMtuChanged");
         }
     };
 

@@ -252,6 +252,9 @@ android.util.Log.d("mGattServerCallback", "onConnectionStateChange");
                     mBluetoothDevices.add(device);
                     msg = "Connected to device: " + device.getAddress();
                     Log.v(MainActivity.TAG, msg);
+
+                    //device.createBond();
+
                     showMsgText(msg);
                 } else if (newState == BluetoothGatt.STATE_DISCONNECTED) {
                 // Remote device disconnected

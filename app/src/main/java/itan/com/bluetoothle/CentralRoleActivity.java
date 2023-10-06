@@ -9,6 +9,7 @@ import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -69,6 +70,21 @@ public class CentralRoleActivity extends BluetoothActivity implements View.OnCli
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Test", MODE_PRIVATE);
+        String name = sharedPreferences.getString("devicename", "");
+        String address = sharedPreferences.getString("deviceaddress", "");
+
+        if (name.trim().length() > 0 && address.trim().length() > 0) {
+            Intent intent = new Intent(this, DeviceConnectActivity.class);
+            intent.putExtra(DeviceConnectActivity.EXTRAS_DEVICE_NAME, name);
+            intent.putExtra(DeviceConnectActivity.EXTRAS_DEVICE_ADDRESS, address);
+            startActivity(intent);
+        }
+    }
 
     @Override
     protected int getLayoutId() {
@@ -190,6 +206,12 @@ public class CentralRoleActivity extends BluetoothActivity implements View.OnCli
     @Override
     public void onDeviceItemClick(String deviceName, String deviceAddress) {
         //stopScanning();
+        SharedPreferences sharedPreferences = getSharedPreferences("Test", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("devicename", deviceName);
+        editor.putString("deviceaddress", deviceAddress);
+        editor.commit();
+
         Intent intent = new Intent(this, DeviceConnectActivity.class);
         intent.putExtra(DeviceConnectActivity.EXTRAS_DEVICE_NAME, deviceName);
         intent.putExtra(DeviceConnectActivity.EXTRAS_DEVICE_ADDRESS, deviceAddress);

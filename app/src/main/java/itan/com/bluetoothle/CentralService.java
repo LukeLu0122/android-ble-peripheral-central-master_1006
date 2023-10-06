@@ -263,15 +263,15 @@ Log.i("BluetoothGattCallback", "onMtuChanged");
         }
 
         // Previously connected device.  Try to reconnect.
-        if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress) && mBluetoothGatt != null) {
-            Log.d(MainActivity.TAG, "Trying to use an existing mBluetoothGatt for connection.");
-            if (mBluetoothGatt.connect()) {
-                mConnectionState = STATE_CONNECTING;
-                return true;
-            } else {
-                return false;
-            }
-        }
+        //if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress) && mBluetoothGatt != null) {
+        //    Log.d(MainActivity.TAG, "Trying to use an existing mBluetoothGatt for connection.");
+        //    if (mBluetoothGatt.connect()) {
+        //        mConnectionState = STATE_CONNECTING;
+        //        return true;
+        //    } else {
+        //        return false;
+        //    }
+        //}
 
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
@@ -282,6 +282,7 @@ Log.i("BluetoothGattCallback", "onMtuChanged");
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
         mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+        //mBluetoothGatt = device.connectGatt(this, true, mGattCallback);
         mBluetoothDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;
 

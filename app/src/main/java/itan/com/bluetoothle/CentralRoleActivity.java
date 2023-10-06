@@ -78,12 +78,12 @@ public class CentralRoleActivity extends BluetoothActivity implements View.OnCli
         String name = sharedPreferences.getString("devicename", "");
         String address = sharedPreferences.getString("deviceaddress", "");
 
-        if (name.trim().length() > 0 && address.trim().length() > 0) {
-            Intent intent = new Intent(this, DeviceConnectActivity.class);
-            intent.putExtra(DeviceConnectActivity.EXTRAS_DEVICE_NAME, name);
-            intent.putExtra(DeviceConnectActivity.EXTRAS_DEVICE_ADDRESS, address);
-            startActivity(intent);
-        }
+        //if (name.trim().length() > 0 && address.trim().length() > 0) {
+        //    Intent intent = new Intent(this, DeviceConnectActivity.class);
+        //    intent.putExtra(DeviceConnectActivity.EXTRAS_DEVICE_NAME, name);
+        //    intent.putExtra(DeviceConnectActivity.EXTRAS_DEVICE_ADDRESS, address);
+        //    startActivity(intent);
+        //}
     }
 
     @Override

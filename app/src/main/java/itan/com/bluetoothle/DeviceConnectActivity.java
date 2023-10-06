@@ -151,7 +151,7 @@ public class DeviceConnectActivity extends BluetoothActivity implements View.OnC
     }
 
     private void requestWriteCharacteristic() {
-        if (mBluetoothLeService != null && mCharacteristic != null) {
+        if (mBluetoothLeService != null) {
             mBluetoothLeService.writeCharacteristic(mCharacteristic);
         } else {
             showMsgText(R.string.error_unknown);

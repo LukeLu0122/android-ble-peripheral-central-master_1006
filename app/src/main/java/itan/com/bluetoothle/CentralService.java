@@ -351,13 +351,16 @@ Log.i("BluetoothGattCallback", "onMtuChanged");
 
         if ((flag & 0x01) != 0) {
             format = BluetoothGattCharacteristic.FORMAT_UINT16;
-            Log.d(MainActivity.TAG, "data format UINT16.");
+        //    Log.d(MainActivity.TAG, "data format UINT16.");
         } else {
             format = BluetoothGattCharacteristic.FORMAT_UINT8;
-            Log.d(MainActivity.TAG, "data format UINT8.");
+        //    Log.d(MainActivity.TAG, "data format UINT8.");
         }
-
         characteristic.setValue(1, format, 0);
+
+        //characteristic = mBluetoothGatt.getService(HEART_RATE_SERVICE_UUID).getCharacteristic(BODY_SENSOR_LOCATION_CHARACTERISTIC_UUID);
+        //characteristic.setValue(1, format, 0);
+
         mBluetoothGatt.writeCharacteristic(characteristic);
     }
 

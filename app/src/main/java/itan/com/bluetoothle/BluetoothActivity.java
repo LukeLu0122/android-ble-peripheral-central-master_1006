@@ -56,7 +56,6 @@ public abstract class BluetoothActivity extends AppCompatActivity {
 
         BluetoothAdapter bluetoothAdapter;
         BluetoothManager bluetoothService = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE));
-
         if (bluetoothService != null) {
             bluetoothAdapter = bluetoothService.getAdapter();
             // Is Bluetooth supported on this device?

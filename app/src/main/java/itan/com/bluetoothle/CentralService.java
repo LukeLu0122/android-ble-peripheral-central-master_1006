@@ -279,15 +279,18 @@ Log.i("BluetoothGattCallback", "onMtuChanged");
             return false;
         }
 
-        // We want to directly connect to the device, so we are setting the autoConnect
-        // parameter to false.
-        mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
-        //mBluetoothGatt = device.connectGatt(this, true, mGattCallback);
-        mBluetoothDeviceAddress = address;
-        mConnectionState = STATE_CONNECTING;
+        boolean result = device.createBond();
 
-        Log.d(MainActivity.TAG, "Trying to create a new connection.");
+        if (result) {
+            // We want to directly connect to the device, so we are setting the autoConnect
+            // parameter to false.
+            mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+            //mBluetoothGatt = device.connectGatt(this, true, mGattCallback);
+            mBluetoothDeviceAddress = address;
+            mConnectionState = STATE_CONNECTING;
 
+            Log.d(MainActivity.TAG, "Trying to create a new connection." + "(" + result + ")");
+        }
         return true;
     }
 

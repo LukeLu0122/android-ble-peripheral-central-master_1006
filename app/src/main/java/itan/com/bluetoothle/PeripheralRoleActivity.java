@@ -1,5 +1,6 @@
 package itan.com.bluetoothle;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -69,6 +70,10 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
             }
         });
 
+        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 0);
+        startActivityForResult(intent, 1000);
+
         setGattServer();
         setBluetoothService();
     }
@@ -129,6 +134,8 @@ mEnableAdvertisementSwitch.setOnClickListener(this);
         } else {
             showMsgText(R.string.error_unknown);
         }
+
+
     }
 
     private void setBluetoothService() {

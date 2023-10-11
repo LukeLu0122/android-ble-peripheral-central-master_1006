@@ -121,6 +121,11 @@ public class CentralRoleActivity extends BluetoothActivity implements View.OnCli
         better to request each time as BluetoothAdapter state might change (connection lost, etc...)
          */
         if (bluetoothAdapter != null) {
+
+            android.util.Log.i("luke", "bondDevice: " + bluetoothAdapter.getBondedDevices().size());
+            for (BluetoothDevice device :bluetoothAdapter.getBondedDevices())
+                android.util.Log.i("luke", "bondDevice_name: " + device.getName());
+
             BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
 
             if (bluetoothLeScanner != null) {
@@ -231,7 +236,6 @@ public class CentralRoleActivity extends BluetoothActivity implements View.OnCli
             //for (ScanResult result : results)
             //    if (!result.getDevice().getName().contains("TP"))
             //        results.remove(result);
-
             mDevicesAdapter.add(results);
             logResults(results);
         }
